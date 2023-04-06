@@ -4,6 +4,7 @@ import Comment from './Comment';
 import axios from 'axios';
 import './commetnsManagement.scss'
 import { editUserCommentAdmin } from '../../../services/firebase'
+import LoadingSpinner from '../loadingSpinner/loadingSpinner';
 
 const CommentsManagementAdmin = () => {
 
@@ -18,8 +19,9 @@ const CommentsManagementAdmin = () => {
       .then((data) => {
         const dataList = data
         if (dataList !== null) {
-        setComments(Object.values(dataList))
-        setCommentsId(Object.keys(dataList))}
+          setComments(Object.values(dataList))
+          setCommentsId(Object.keys(dataList))
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -70,9 +72,10 @@ const CommentsManagementAdmin = () => {
       }
     }
   }
- 
+
   return (
     <div className="comments__container">
+      <LoadingSpinner />
       <div className="comments__sort">
         <p>Сортировать:</p>
         <label>
@@ -98,13 +101,13 @@ const CommentsManagementAdmin = () => {
         {(comments.length !== 1 && comments[0] !== '')
           ? comments.map((com, i) =>
             <div className='comment' key={i}>
-              <Comment comment={com} id={commentsId[i]}  idComment={deleteComment} />
+              <Comment comment={com} id={commentsId[i]} idComment={deleteComment} />
             </div>)
-          : 
+          :
           <div className="comments__no" >
             <p className="comments__no__title" >У&nbsp;вас ещё нет отзывов(</p>
           </div>
-          }
+        }
       </div>
     </div>
   )
